@@ -1,15 +1,24 @@
 <?php
 /**
- * Database query, fetch all
+ * Database connection
  *
- * @return returns all data from the database `characters`
+ * @return returns PDO from database connection
  */
-function databaseFetchAll() {
+function databaseConnect(): PDO {
     $db = new PDO('mysql:host=db; dbname=collection_project', 'root', 'password');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $query = $db->prepare("SELECT `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters`;");
-    $query->execute();
-    return $query->fetchAll();
+    return $db;
+}
+/**
+ * Creates query fetching all data from the database
+ *
+ * @param PDO created by connection with database
+ * @return array returns all of the data requested from the database
+ */
+function databaseFetchAll($db): array{
+$query = $db->prepare("SELECT `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters`;");
+$query->execute();
+return $query->fetchAll();
 }
 
 /**

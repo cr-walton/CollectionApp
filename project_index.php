@@ -1,6 +1,7 @@
 <?php
 require_once('functions.php');
-$characters = databaseFetchAll();
+$db = databaseConnect();
+$characters = databaseFetchAll($db);
 
 ?>
 
