@@ -43,5 +43,30 @@ function displayCharacters(array $characters): string {
     return $result;
     
 }
+/**
+ * Inserts data from the form into the database
+ *
+ * @param PDO database connection PDO
+ * @param string $charname from POST
+ * @param string $class from POST
+ * @param integer $level from POST
+ * @param integer $strength from POST
+ * @param integer $dexterity from POST
+ * @param integer $constitution from POST
+ * @param integer $intelligence from POST
+ * @param integer $wisdom from POST
+ * @param integer $charisma from POST
+ * @return Inserts data to the database
+ */
+function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma) {
+    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
+    VALUES (:charname, :class, $level, $strength, $dexterity, $constitution, $intelligence, $wisdom, $charisma)");
+    $query->bindParam(':charname', $charname);
+    $query->bindPAram(':class', $class);
+    return $query->execute();
+}
+
+
+
 
 ?>
