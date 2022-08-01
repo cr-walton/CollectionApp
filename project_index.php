@@ -2,10 +2,6 @@
 require_once('functions.php');
 $characters = databaseFetchAll();
 
-echo displayCharacters($characters);
-
-
-
 ?>
 
 <html>
@@ -13,7 +9,7 @@ echo displayCharacters($characters);
     </head>
     <body>
         <div>
-            <!-- <p>Name: <?php echo $characters[1]['charname'];?></p> -->
+            <?php echo displayCharacters($characters);?>
         </div>
     </body>
 </html>
