@@ -10,7 +10,7 @@ $characters = databaseFetchAll($db);
     </head>
     <body>
         <div>
-            <?php echo displayCharacters($characters);?>
+            <?=displayCharacters($characters);?>
         </div>
     </body>
 </html>
