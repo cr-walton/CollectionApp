@@ -7,6 +7,7 @@
 function databaseConnect(): PDO {
     $db = new PDO('mysql:host=db; dbname=collection_project', 'root', 'password');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     return $db;
 }
 /**
@@ -15,11 +16,67 @@ function databaseConnect(): PDO {
  * @param PDO created by connection with database
  * @return array returns all of the data requested from the database
  */
-function databaseFetchAll($db): array{
-    $query = $db->prepare("SELECT `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters`;");
+function databaseFetchAll(PDO $db): array {
+    $query = $db->prepare("SELECT `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `id` FROM `characters` WHERE `deleted` = 0;");
     $query->execute();
     return $query->fetchAll();
 }
+/**
+ * Fetch character data from database so that it can be edited
+ *
+ * @param PDO database PDO
+ * @param string id of the character in the database
+ * @return array Returns all the information of the character that is to be edited
+ */
+function databaseFetchEditChar(PDO $db,string $id): array {
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `id` = :id ;");
+    $query->bindParam(':id', $id);
+    $query->execute();
+    return $query->fetch();
+}
+/**
+ * Sets the character data on the database to be tagged as deleted
+ *
+ * @param PDO database PDO
+ * @param string id of the character to be deleted
+ * @return returns a boolean to see if the function has failed
+ */
+function databaseDeleteChar(PDO $db, string $id) {
+    $query = $db->prepare("UPDATE `characters` SET `deleted` = 1 WHERE `id` = :id");
+    $query->bindParam(':id', $id);
+    return $query->execute();
+}
+/**
+ * Update the database with the data provided, in order to edit the character details
+ *
+ * @param PDO database PDO
+ * @param string $charname
+ * @param string $class
+ * @param integer $level
+ * @param integer $strength
+ * @param integer $dexterity
+ * @param integer $constitution
+ * @param integer $intelligence
+ * @param integer $wisdom
+ * @param integer $charisma
+ * @param integer $id
+ * @return bool true if passed and false if failed
+ */
+function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id) {
+    $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma WHERE `id` = :id");
+    $query->bindParam(':charname', $charname);
+    $query->bindParam(':class', $class);
+    $query->bindParam(':level1', $level);
+    $query->bindParam(':strength', $strength);
+    $query->bindParam(':dexterity', $dexterity);
+    $query->bindParam(':constitution', $constitution);
+    $query->bindParam(':intelligence', $intelligence);
+    $query->bindParam(':wisdom', $wisdom);
+    $query->bindParam(':charisma', $charisma);
+    $query->bindParam(':id', $id);
+    return $query->execute();
+}
+
 
 /**
  * Takes the data from the database, separates the array into individual characters and then echos
@@ -34,11 +91,15 @@ function displayCharacters(array $characters): string {
     }
     $result = '';
     foreach($characters as $character){
-        $result .= "<section class='character_sheet'><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
+        $result .= "<section class='character_sheet'><div><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
         $result .= '<p>Level: ' . $character['level'] . '</p>';
         $result .= '<p>Strength: ' . $character['strength'] . '<br>' . 'Dexterity: ' . $character['dexterity'] . '</p>';
         $result .= '<p>Constitution: ' . $character['constitution'] . '<br>' . 'Intelligence: ' . $character['intelligence'] . '</p>';
-        $result .= '<p>Wisdom: ' . $character['wisdom'] . '<br>' . 'Charisma: ' . $character['charisma'] . '</p></section>';
+        $result .= '<p>Wisdom: ' . $character['wisdom'] . '<br>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
+        $result .= "<div><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
+        $result .= "<button>Delete this character</button></form>";
+        $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'></input>";
+        $result .= "<button>Edit this character</button></form></div></section>";
     }
     return $result;
     

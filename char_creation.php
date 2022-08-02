@@ -5,10 +5,12 @@
     <body>
         <form action='verify.php' method='POST'>
             <div>
-                <?php if(isset($_GET['error'])){
+               <?php if(isset($_GET['error'])){
                          echo $_GET['error'];
                       }  
                 ?>
+            </div> 
+            <div>
                 <label for='charname'>Character Name:</label>
                 <input type='text' name='charname' />
             </div>

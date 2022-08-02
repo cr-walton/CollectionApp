@@ -8,9 +8,17 @@ class Functions extends TestCase {
     public function testSuccessdisplayCharacters()
     {
         //expected result of the test
-        $expected = "<section class='character_sheet'><p>Name: Lilen<br>Class: Sorcerer</p><p>Level: 6</p><p>Strength: 8<br>Dexterity: 12</p><p>Constitution: 14<br>Intelligence: 13</p><p>Wisdom: 12<br>Charisma: 18</p></section>";
+        $expected = "<section class='character_sheet'><div><p>Name: Lilen<br>Class: Sorcerer</p>";
+        $expected .= "<p>Level: 6</p>";
+        $expected .= "<p>Strength: 8<br>Dexterity: 12</p>";
+        $expected .= "<p>Constitution: 14<br>Intelligence: 13</p>";
+        $expected .= "<p>Wisdom: 12<br>Charisma: 18</p></div>";
+        $expected .= "<div><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='1'</input>";
+        $expected .= "<button>Delete this character</button></form>";
+        $expected .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='1'></input>";
+        $expected .= "<button>Edit this character</button></form></div></section>";
         //input for the test to get the result
-        $testInput1 = [['charname' => 'Lilen', 'class' => 'Sorcerer', 'level' => 6, 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18]];
+        $testInput1 = [['charname' => 'Lilen', 'id' => 1, 'class' => 'Sorcerer', 'level' => 6, 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18]];
         //run the real function with the input
         $case = displayCharacters($testInput1);
         //compare the expected result with the actual result
