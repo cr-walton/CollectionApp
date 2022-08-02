@@ -34,7 +34,7 @@ function displayCharacters(array $characters): string {
     }
     $result = '';
     foreach($characters as $character){
-        $result .= '<section><p>Name: ' . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
+        $result .= "<section class='character_sheet'><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
         $result .= '<p>Level: ' . $character['level'] . '</p>';
         $result .= '<p>Strength: ' . $character['strength'] . '<br>' . 'Dexterity: ' . $character['dexterity'] . '</p>';
         $result .= '<p>Constitution: ' . $character['constitution'] . '<br>' . 'Intelligence: ' . $character['intelligence'] . '</p>';
