@@ -13,8 +13,6 @@ $characters = databaseFetchAll($db);
         <div>
             <?=displayCharacters($characters);?>
         </div>
-        <form action='char_creation.php'>
-            <button>Create a new character</button>
-        </form>
+        <a href='char_creation.php'>Create a new character</a>
     </body>
 </html>

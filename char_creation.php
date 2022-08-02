@@ -1,15 +1,13 @@
 <html>
     <head>
-        <form action='project_index.php'>
-            <button>Go back</button>
-        </form>
+      <a href='project_index.php'>Go back</a>
     </head>
     <body>
         <form action='verify.php' method='POST'>
             <div>
                 <?php   if(isset($_GET['error'])){
-                        echo '<p>All fields are required</p>';
-                } 
+                            echo $_GET['error'];
+                        }  
                 ?>
                 <label for='charname'>Character Name:</label>
                 <input type='text' name='charname' />

@@ -60,13 +60,52 @@ function displayCharacters(array $characters): string {
  */
 function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma) {
     $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
-    VALUES (:charname, :class, $level, $strength, $dexterity, $constitution, $intelligence, $wisdom, $charisma)");
+    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
     $query->bindParam(':charname', $charname);
     $query->bindPAram(':class', $class);
+    $query->bindPAram(':level', $level);
+    $query->bindPAram(':strength', $strength);
+    $query->bindPAram(':dexterity', $dexterity);
+    $query->bindPAram(':constitution', $constitution);
+    $query->bindPAram(':intelligence', $intelligence);
+    $query->bindPAram(':wisdom', $wisdom);
+    $query->bindPAram(':charisma', $charisma);
     return $query->execute();
 }
-
-
-
+/**
+ * Validates the $_POST data to ensure that no fields are empty when inserting
+ *
+ * @param array Data from the form on previous page, stored in $_POST
+ * @return bool returns false if not validated
+ */
+function validateFields(array $post) {
+    if((!isset($post['charname']) || $post['charname'] === '') 
+    || (!isset($post['class']) || $post['class'] === '')
+    || (!isset($post['level']) || $post['level'] === '')
+    || (!isset($post['strength']) || $post['strength'] === '')
+    || (!isset($post['dexterity']) || $post['dexterity'] === '')
+    || (!isset($post['constitution']) || $post['constitution'] === '')
+    || (!isset($post['intelligence']) || $post['intelligence'] === '') 
+    || (!isset($post['wisdom']) || $post['wisdom'] === '') 
+    || (!isset($post['charisma']) || $post['charisma'] === '')) {
+        return false;
+    } return true;
+} 
+/**
+ * Validates the stats to ensure that they are not outside of acceptable range
+ *
+ * @param array data from the form on previous page with $_POST
+ * @return bool returns false if stats are over 20
+ */
+function validateStats(array $post){
+    if($post['strength'] > 20 
+    || $post['dexterity'] > 20 
+    || $post['constitution'] > 20 
+    || $post['intelligence'] > 20 
+    || $post['wisdom'] > 20 
+    || $post['charisma'] > 20) {
+        return false;
+    } return true;
+}
 
 ?>
