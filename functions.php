@@ -10,6 +10,7 @@ function databaseConnect(): PDO {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     return $db;
 }
+
 /**
  * Creates query fetching all data from the database
  *
@@ -21,6 +22,7 @@ function databaseFetchAll(PDO $db): array {
     $query->execute();
     return $query->fetchAll();
 }
+
 /**
  * Fetch character data from database so that it can be edited
  *
@@ -34,6 +36,7 @@ function databaseFetchEditChar(PDO $db,string $id): array {
     $query->execute();
     return $query->fetch();
 }
+
 /**
  * Sets the character data on the database to be tagged as deleted
  *
@@ -46,6 +49,37 @@ function databaseDeleteChar(PDO $db, string $id) {
     $query->bindParam(':id', $id);
     return $query->execute();
 }
+
+/**
+ * Inserts data from the form into the database
+ *
+ * @param PDO database connection PDO
+ * @param string $charname from POST
+ * @param string $class from POST
+ * @param integer $level from POST
+ * @param integer $strength from POST
+ * @param integer $dexterity from POST
+ * @param integer $constitution from POST
+ * @param integer $intelligence from POST
+ * @param integer $wisdom from POST
+ * @param integer $charisma from POST
+ * @return Inserts data to the database
+ */
+function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma) {
+    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
+    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
+    $query->bindParam(':charname', $charname);
+    $query->bindPAram(':class', $class);
+    $query->bindPAram(':level', $level);
+    $query->bindPAram(':strength', $strength);
+    $query->bindPAram(':dexterity', $dexterity);
+    $query->bindPAram(':constitution', $constitution);
+    $query->bindPAram(':intelligence', $intelligence);
+    $query->bindPAram(':wisdom', $wisdom);
+    $query->bindPAram(':charisma', $charisma);
+    return $query->execute();
+}
+
 /**
  * Update the database with the data provided, in order to edit the character details
  *
@@ -77,7 +111,6 @@ function editCharDatabase(PDO $db, string $charname, string $class, int $level, 
     return $query->execute();
 }
 
-
 /**
  * Takes the data from the database, separates the array into individual characters and then echos
  * out the information
@@ -101,38 +134,9 @@ function displayCharacters(array $characters): string {
         $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'></input>";
         $result .= "<button>Edit this character</button></form></div></section>";
     }
-    return $result;
-    
+    return $result; 
 }
-/**
- * Inserts data from the form into the database
- *
- * @param PDO database connection PDO
- * @param string $charname from POST
- * @param string $class from POST
- * @param integer $level from POST
- * @param integer $strength from POST
- * @param integer $dexterity from POST
- * @param integer $constitution from POST
- * @param integer $intelligence from POST
- * @param integer $wisdom from POST
- * @param integer $charisma from POST
- * @return Inserts data to the database
- */
-function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma) {
-    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
-    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
-    $query->bindParam(':charname', $charname);
-    $query->bindPAram(':class', $class);
-    $query->bindPAram(':level', $level);
-    $query->bindPAram(':strength', $strength);
-    $query->bindPAram(':dexterity', $dexterity);
-    $query->bindPAram(':constitution', $constitution);
-    $query->bindPAram(':intelligence', $intelligence);
-    $query->bindPAram(':wisdom', $wisdom);
-    $query->bindPAram(':charisma', $charisma);
-    return $query->execute();
-}
+
 /**
  * Validates the $_POST data to ensure that no fields are empty when inserting
  *
@@ -151,7 +155,8 @@ function validateFields(array $post) {
     || (!isset($post['charisma']) || $post['charisma'] === '')) {
         return false;
     } return true;
-} 
+}
+
 /**
  * Validates the stats to ensure that they are not outside of acceptable range
  *
