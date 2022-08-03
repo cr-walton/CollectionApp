@@ -1,3 +1,10 @@
+<?php
+require_once 'functions.php';
+$error = getMessage($_GET);
+
+?>
+
+
 <html>
     <head>
       <a href='project_index.php'>Go back</a>
@@ -5,10 +12,7 @@
     <body>
         <form action='verify.php' method='POST'>
             <div>
-               <?php if(isset($_GET['error'])){
-                         echo $_GET['error'];
-                      }  
-                ?>
+               <?= $error ?>
             </div> 
             <div>
                 <label for='charname'>Character Name:</label>
@@ -20,31 +24,31 @@
             </div>
             <div>
                 <label for='level'>Level:</label>
-                <input type='number' min= 0 max= 20 name='level' />
+                <input type='number' min= '0' max= '20' name='level' />
             </div>
             <div>
                 <label for='strength'>Strength:</label>
-                <input type='number' min= 0 max= 20 name='strength' />
+                <input type='number' min= '0' max= '20' name='strength' />
             </div>
             <div>
                 <label for='dexterity'>Dexterity:</label>
-                <input type='number' min= 0 max= 20 name='dexterity' />
+                <input type='number' min= '0' max= '20' name='dexterity' />
             </div>
             <div>
                 <label for='constitution'>Constitution:</label>
-                <input type='number' min= 0 max= 20 name='constitution' />
+                <input type='number' min= '0' max= '20' name='constitution' />
             </div>
             <div>
                 <label for='intelligence'>Intelligence:</label>
-                <input type='number' min= 0 max= 20 name='intelligence' />
+                <input type='number' min= '0' max= '20' name='intelligence' />
             </div>
             <div>
                 <label for='wisdom'>Wisdom:</label>
-                <input type='number' min= 0 max= 20 name='wisdom' />
+                <input type='number' min= '0' max= '20' name='wisdom' />
             </div>
             <div>
                 <label for='charisma'>Charisma:</label>
-                <input type='number' min= 0 max= 20 name='charisma' />
+                <input type='number' min= '0' max= '20' name='charisma' />
             </div>
             <div>
                 <button>Create Character</button>

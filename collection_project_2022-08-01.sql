@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.8.3-MariaDB-1:10.8.3+maria~jammy)
 # Database: collection_project
-# Generation Time: 2022-08-01 09:45:19 +0000
+# Generation Time: 2022-08-03 08:38:32 +0000
 # ************************************************************
 
 
@@ -38,20 +38,21 @@ CREATE TABLE `characters` (
   `wisdom` tinyint(2) NOT NULL,
   `charisma` tinyint(2) NOT NULL,
   `link` varchar(1000) DEFAULT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `characters` WRITE;
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
 
-INSERT INTO `characters` (`id`, `username`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`)
+INSERT INTO `characters` (`id`, `username`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`, `deleted`)
 VALUES
-	(1,'chris','Lilen','Sorcerer',6,8,12,14,13,12,18,NULL),
-	(2,'chris','Itsuki','Paladin',9,20,8,14,12,11,15,NULL),
-	(3,'chris','Ce\'nedra','Warlock',4,8,12,14,12,11,18,NULL),
-	(4,'chris','Locke','Rogue',6,8,18,12,13,11,14,NULL),
-	(5,'chris','Gale','Wizard',6,11,12,8,18,14,10,NULL),
-	(6,'chris','Lae\'zel','Fighter',4,18,12,14,11,13,8,NULL);
+	(1,'chris','Lilen','Sorcerer',6,8,12,14,13,12,18,NULL,0),
+	(2,'chris','Itsuki','Paladin',9,20,8,14,12,11,15,NULL,0),
+	(3,'chris','Ce\'nedra','Warlock',4,8,12,14,12,11,18,NULL,0),
+	(4,'chris','Locke','Rogue',6,8,18,12,13,11,14,NULL,0),
+	(5,'chris','Gale','Wizard',6,11,12,8,18,14,10,NULL,0),
+	(6,'chris','Lae\'zel','Fighter',4,18,12,14,11,13,8,NULL,0);
 
 /*!40000 ALTER TABLE `characters` ENABLE KEYS */;
 UNLOCK TABLES;

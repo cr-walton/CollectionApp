@@ -18,7 +18,7 @@ function databaseConnect(): PDO {
  * @return array returns all of the data requested from the database
  */
 function databaseFetchAll(PDO $db): array {
-    $query = $db->prepare("SELECT `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `id` FROM `characters` WHERE `deleted` = 0;");
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `deleted` = 0;");
     $query->execute();
     return $query->fetchAll();
 }
@@ -28,9 +28,9 @@ function databaseFetchAll(PDO $db): array {
  *
  * @param PDO database PDO
  * @param string id of the character in the database
- * @return array Returns all the information of the character that is to be edited
+ * @return mixed Returns all the information of the character that is to be edited, if failed returns false
  */
-function databaseFetchEditChar(PDO $db,string $id): array {
+function databaseFetchEditChar(PDO $db,string $id) {
     $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `id` = :id ;");
     $query->bindParam(':id', $id);
     $query->execute();
@@ -44,10 +44,11 @@ function databaseFetchEditChar(PDO $db,string $id): array {
  * @param string id of the character to be deleted
  * @return returns a boolean to see if the function has failed
  */
-function databaseDeleteChar(PDO $db, string $id) {
+function databaseDeleteChar(PDO $db, string $id): bool {
     $query = $db->prepare("UPDATE `characters` SET `deleted` = 1 WHERE `id` = :id");
     $query->bindParam(':id', $id);
-    return $query->execute();
+    $query->execute();
+    return $query->rowcount() === 1;
 }
 
 /**
@@ -65,7 +66,7 @@ function databaseDeleteChar(PDO $db, string $id) {
  * @param integer $charisma from POST
  * @return Inserts data to the database
  */
-function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma) {
+function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma): bool {
     $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
     VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
     $query->bindParam(':charname', $charname);
@@ -96,7 +97,7 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
  * @param integer $id
  * @return bool true if passed and false if failed
  */
-function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id) {
+function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id): bool {
     $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma WHERE `id` = :id");
     $query->bindParam(':charname', $charname);
     $query->bindParam(':class', $class);
@@ -143,7 +144,7 @@ function displayCharacters(array $characters): string {
  * @param array Data from the form on previous page, stored in $_POST
  * @return bool returns false if not validated
  */
-function validateFields(array $post) {
+function validateFields(array $post): bool {
     if((!isset($post['charname']) || $post['charname'] === '') 
     || (!isset($post['class']) || $post['class'] === '')
     || (!isset($post['level']) || $post['level'] === '')
@@ -163,7 +164,7 @@ function validateFields(array $post) {
  * @param array data from the form on previous page with $_POST
  * @return bool returns false if stats are over 20
  */
-function validateStats(array $post){
+function validateStats(array $post): bool {
     if($post['strength'] > 20 
     || $post['dexterity'] > 20 
     || $post['constitution'] > 20 
@@ -172,6 +173,25 @@ function validateStats(array $post){
     || $post['charisma'] > 20) {
         return false;
     } return true;
+}
+
+
+/**
+ * Fetches messages from $_GET 
+ *
+ * @return string returns a string from $_GET
+ */
+function getMessage(): string {
+    if(isset($_GET['error'])) {
+        $result = $_GET;
+        return $result['error'];
+    } return '';
+}
+
+function sanitizePost(): array {
+    $charname = filter_var($_POST['charname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    return [$charname, $class];
 }
 
 ?>

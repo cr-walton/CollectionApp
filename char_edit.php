@@ -2,6 +2,9 @@
 require_once 'functions.php';
 $db = databaseConnect();
 $character = databaseFetchEditChar($db, $_POST['character']);
+if(!$character) {
+    header('location: project_index.php');
+}
 ?>
 
 <html>
@@ -21,31 +24,31 @@ $character = databaseFetchEditChar($db, $_POST['character']);
             </div>
             <div>
                 <label>Level:</label>
-                <input type='number' name='level' value='<?= $character['level']?>' />
+                <input type='number' min= '0' max= '20' name='level' value='<?= $character['level']?>' />
             </div>
             <div>
                 <label>Strength:</label>
-                <input type='text' name='strength' value='<?= $character['strength']?>' />
+                <input type='number' min= '0'max= '20' name='strength' value='<?= $character['strength']?>' />
             </div>
             <div>
                 <label>Dexterity:</label>
-                <input type='text' name='dexterity' value='<?= $character['dexterity']?>' />
+                <input type='number' min= '0' max= '20' name='dexterity' value='<?= $character['dexterity']?>' />
             </div>
             <div>
                 <label>Constitution:</label>
-                <input type='text' name='constitution' value='<?= $character['constitution']?>' />
+                <input type='number' min= '0' max= '20' name='constitution' value='<?= $character['constitution']?>' />
             </div>
             <div>
                 <label>Intelligence:</label>
-                <input type='text' name='intelligence' value='<?= $character['intelligence']?>' />
+                <input type='number' min= '0' max= '20' name='intelligence' value='<?= $character['intelligence']?>' />
             </div>
             <div>
                 <label>Wisdom:</label>
-                <input type='text' name='wisdom' value='<?= $character['wisdom']?>' />
+                <input type='number' min= '0' max= '20' name='wisdom' value='<?= $character['wisdom']?>' />
             </div>
             <div>
                 <label>Charisma:</label>
-                <input type='text' name='charisma' value='<?= $character['charisma']?>' />
+                <input type='number' min= '0' max= '20' name='charisma' value='<?= $character['charisma']?>' />
                 <input type='hidden' name='character' value='<?= $character['id']?>' />
             </div>
             <button>Confirm Edits</button>
