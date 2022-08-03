@@ -128,15 +128,15 @@ function displayCharacters(array $characters): string {
     $result = '';
     foreach($characters as $character){
         $result .= "<section class='character_sheet'><div class='image'><img src='" . $character['link'] . "' /></div>";
-        $result .= "<div><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
-        $result .= '<p>Level: ' . $character['level'] . '</p>';
-        $result .= '<p>Strength: ' . $character['strength'] . '<br>' . 'Dexterity: ' . $character['dexterity'] . '</p>';
-        $result .= '<p>Constitution: ' . $character['constitution'] . '<br>' . 'Intelligence: ' . $character['intelligence'] . '</p>';
-        $result .= '<p>Wisdom: ' . $character['wisdom'] . '<br>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
-        $result .= "<div><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
+        $result .= "<div class='grid_contain'><div class='name_class'><p>Name: " . $character['charname'] . '</p><p>' . 'Class: ' . $character['class'] . '</p>';
+        $result .= '<p>Level: ' . $character['level'] . '</p></div>';
+        $result .= "<div class='stats'><div><p>Strength: " . $character['strength'] . '</p><p>' . 'Dexterity: ' . $character['dexterity'] . "</p>";
+        $result .= '<p>Constitution: ' . $character['constitution'] . '</p></div>' . '<div><p>Intelligence: ' . $character['intelligence'] . '</p>';
+        $result .= '<p>Wisdom: ' . $character['wisdom'] . '</p><p>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
+        $result .= "</div><div class='buttons'><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
         $result .= "<button>Delete this character</button></form>";
         $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'></input>";
-        $result .= "<button>Edit this character</button></form></div></section>";
+        $result .= "<button>Edit this character</button></form></div></div></section>";
     }
     return $result; 
 }
@@ -156,7 +156,8 @@ function validateFields(array $post): bool {
     || (!isset($post['constitution']) || $post['constitution'] === '')
     || (!isset($post['intelligence']) || $post['intelligence'] === '') 
     || (!isset($post['wisdom']) || $post['wisdom'] === '') 
-    || (!isset($post['charisma']) || $post['charisma'] === '')) {
+    || (!isset($post['charisma']) || $post['charisma'] === '')
+    || (!isset($post['image']) || $post['image'] === '')){
         return false;
     } return true;
 }

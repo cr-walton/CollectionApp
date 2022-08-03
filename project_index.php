@@ -11,7 +11,7 @@ $characters = databaseFetchAll($db);
 	    <link href="normalize.css" type="text/css" rel="stylesheet" />
 	    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 	    <link href="style.css" type="text/css" rel="stylesheet" />
-		    <title>Chris Walton</title>
+		    <title>Chris Walton: D&D Collection</title>
     </head>
     <body>
         <nav>
@@ -31,9 +31,9 @@ $characters = databaseFetchAll($db);
             </div>
             <section class='contact-container' id='contact-me'>
             <div class='contact-links'>
-                <a href='mailto:walton-cr@proton.me'><img src='images/email-logo.png' alt='email Link'></a>
-                <a href='#'><img src='images/LinkedIn-logo.png' alt='LinkedIn Link'></a>
-                <a href='https://github.com/cr-walton'><img src='images/GitHub-Mark-32px.png' alt='GitHub Link'></a>
+                <a href='mailto:walton-cr@proton.me'><img src='email-logo.png' alt='email Link'></a>
+                <a href='#'><img src='LinkedIn-logo.png' alt='LinkedIn Link'></a>
+                <a href='https://github.com/cr-walton'><img src='GitHub-Mark-32px.png' alt='GitHub Link'></a>
             </div>
         </div>	
 	</section>
