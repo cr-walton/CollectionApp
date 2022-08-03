@@ -24,7 +24,7 @@ $characters = databaseFetchAll($db);
                 <a href="crwaltoncv.docx" id="cv">Download CV</a>
             </div>
         </nav>
-        <div class='project'>
+        <div class='project-main'>
             <div class='collection-cont'>
                 <h1>D&D Character Collection</h1>
                 <?=displayCharacters($characters);?>

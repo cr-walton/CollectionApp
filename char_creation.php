@@ -50,6 +50,8 @@ $error = getMessage($_GET);
                 <label for='charisma'>Charisma:</label>
                 <input type='number' min= '0' max= '20' name='charisma' />
             </div>
+                <label for='image'>Image URL:</label>
+                <input type='text' name='image' value='https://i.imgur.com/9AeOMee.png' required />
             <div>
                 <button>Create Character</button>
             </div>

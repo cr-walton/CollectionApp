@@ -18,7 +18,7 @@ function databaseConnect(): PDO {
  * @return array returns all of the data requested from the database
  */
 function databaseFetchAll(PDO $db): array {
-    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `deleted` = 0;");
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `deleted` = 0;");
     $query->execute();
     return $query->fetchAll();
 }
@@ -31,7 +31,7 @@ function databaseFetchAll(PDO $db): array {
  * @return mixed Returns all the information of the character that is to be edited, if failed returns false
  */
 function databaseFetchEditChar(PDO $db,string $id) {
-    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `id` = :id ;");
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `id` = :id ;");
     $query->bindParam(':id', $id);
     $query->execute();
     return $query->fetch();
@@ -66,9 +66,9 @@ function databaseDeleteChar(PDO $db, string $id): bool {
  * @param integer $charisma from POST
  * @return Inserts data to the database
  */
-function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma): bool {
-    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
-    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
+function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma,string $link): bool {
+    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`)
+    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma, :link)");
     $query->bindParam(':charname', $charname);
     $query->bindPAram(':class', $class);
     $query->bindPAram(':level', $level);
@@ -78,6 +78,7 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
     $query->bindPAram(':intelligence', $intelligence);
     $query->bindPAram(':wisdom', $wisdom);
     $query->bindPAram(':charisma', $charisma);
+    $query->bindParam(':link', $link);
     return $query->execute();
 }
 
@@ -97,8 +98,8 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
  * @param integer $id
  * @return bool true if passed and false if failed
  */
-function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id): bool {
-    $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma WHERE `id` = :id");
+function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id, string $link): bool {
+    $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma, `link` = :link WHERE `id` = :id");
     $query->bindParam(':charname', $charname);
     $query->bindParam(':class', $class);
     $query->bindParam(':level1', $level);
@@ -109,6 +110,7 @@ function editCharDatabase(PDO $db, string $charname, string $class, int $level, 
     $query->bindParam(':wisdom', $wisdom);
     $query->bindParam(':charisma', $charisma);
     $query->bindParam(':id', $id);
+    $query->bindParam(':link', $link);
     return $query->execute();
 }
 
@@ -125,7 +127,8 @@ function displayCharacters(array $characters): string {
     }
     $result = '';
     foreach($characters as $character){
-        $result .= "<section class='character_sheet'><div><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
+        $result .= "<section class='character_sheet'><div class='image'><img src='" . $character['link'] . "' /></div>";
+        $result .= "<div><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
         $result .= '<p>Level: ' . $character['level'] . '</p>';
         $result .= '<p>Strength: ' . $character['strength'] . '<br>' . 'Dexterity: ' . $character['dexterity'] . '</p>';
         $result .= '<p>Constitution: ' . $character['constitution'] . '<br>' . 'Intelligence: ' . $character['intelligence'] . '</p>';
@@ -197,7 +200,8 @@ function getMessage(): string {
 function sanitizePost(): array {
     $charname = filter_var($_POST['charname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    return [$charname, $class];
+    $image = filter_var($_POST['image'], FILTER_SANITIZE_URL);
+    return [$charname, $class, $image];
 }
 
 ?>

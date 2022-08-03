@@ -51,6 +51,10 @@ if(!$character) {
                 <input type='number' min= '0' max= '20' name='charisma' value='<?= $character['charisma']?>' />
                 <input type='hidden' name='character' value='<?= $character['id']?>' />
             </div>
+            <div>
+                <label>Image URL:</label>
+                <input type='text' name='image' value='<?=$character['link']?>' />
+            </div>
             <button>Confirm Edits</button>
         </form>
     </body>
