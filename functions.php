@@ -145,11 +145,11 @@ function editCharDatabase(PDO $db,
  * @return returns a string of the details from the characters
  */
 function displayCharacters(array $characters): string {
-    if(count($characters) === 0){
+    if (count($characters) === 0){
         return 'Data is not available';
     }
     $result = '';
-    foreach($characters as $character){
+    foreach ($characters as $character){
         $result .= "<section class='character_sheet'><div class='image'><img src='" . $character['link'] . "' /></div>";
         $result .= "<div class='grid_contain'><div class='name_class'><p>Name: " . $character['charname'] . '</p><p>' . 'Class: ' . $character['class'] . '</p>';
         $result .= '<p>Level: ' . $character['level'] . '</p></div>';
@@ -171,18 +171,21 @@ function displayCharacters(array $characters): string {
  * @return bool returns false if not validated
  */
 function validateFields(array $post): bool {
-    if(empty($post['charname']) ||
-    empty($post['class']) ||
-    empty($post['level']) ||
-    empty($post['strength']) ||
-    empty($post['dexterity']) || 
-    empty($post['constitution']) ||
-    empty($post['intelligence']) || 
-    empty($post['wisdom']) || 
-    empty($post['charisma']) ||
-    empty($post['image'])) { 
+    if (
+        empty($post['charname']) ||
+        empty($post['class']) ||
+        empty($post['level']) ||
+        empty($post['strength']) ||
+        empty($post['dexterity']) || 
+        empty($post['constitution']) ||
+        empty($post['intelligence']) || 
+        empty($post['wisdom']) || 
+        empty($post['charisma']) ||
+        empty($post['image'])
+    ) { 
         return false;
-    } return true;
+    } 
+    return true;
 }
 
 /**
@@ -192,14 +195,17 @@ function validateFields(array $post): bool {
  * @return bool returns false if stats are over 20
  */
 function validateStats(array $post): bool {
-    if($post['strength'] > 20 
-    || $post['dexterity'] > 20 
-    || $post['constitution'] > 20 
-    || $post['intelligence'] > 20 
-    || $post['wisdom'] > 20 
-    || $post['charisma'] > 20) {
+    if (
+        $post['strength'] > 20 || 
+        $post['dexterity'] > 20 ||
+        $post['constitution'] > 20 ||
+        $post['intelligence'] > 20 ||
+        $post['wisdom'] > 20 ||
+        $post['charisma'] > 20 
+    ) {
         return false;
-    } return true;
+    } 
+    return true;
 }
 
 
@@ -209,10 +215,11 @@ function validateStats(array $post): bool {
  * @return string returns a string from $_GET
  */
 function getMessage(): string {
-    if(isset($_GET['error'])) {
+    if (isset($_GET['error'])) {
         $result = $_GET;
         return $result['error'];
-    } return '';
+    } 
+    return '';
 }
 
 
