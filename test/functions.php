@@ -8,17 +8,18 @@ class Functions extends TestCase {
     public function testSuccessdisplayCharacters()
     {
         //expected result of the test
-        $expected = "<section class='character_sheet'><div><p>Name: Lilen<br>Class: Sorcerer</p>";
-        $expected .= "<p>Level: 6</p>";
-        $expected .= "<p>Strength: 8<br>Dexterity: 12</p>";
-        $expected .= "<p>Constitution: 14<br>Intelligence: 13</p>";
-        $expected .= "<p>Wisdom: 12<br>Charisma: 18</p></div>";
-        $expected .= "<div><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='1'</input>";
+        $expected = "<section class='character_sheet'><div class='image'><img src='img' /></div>";
+        $expected .= "<div class='grid_contain'><div class='name_class'><p>Name: Lilen</p><p>Class: Sorcerer</p>";
+        $expected .= '<p>Level: 6</p></div>';
+        $expected .= "<div class='stats'><div><p>Strength: 8</p><p>Dexterity: 12</p>";
+        $expected .= '<p>Constitution: 14</p></div><div><p>Intelligence: 13</p>';
+        $expected .= '<p>Wisdom: 12</p><p>Charisma: 18</p></div>';
+        $expected .= "</div><div class='buttons'><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='1'</input>";
         $expected .= "<button>Delete this character</button></form>";
         $expected .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='1'></input>";
-        $expected .= "<button>Edit this character</button></form></div></section>";
+        $expected .= "<button>Edit this character</button></form></div></div></section>";
         //input for the test to get the result
-        $testInput1 = [['charname' => 'Lilen', 'id' => 1, 'class' => 'Sorcerer', 'level' => 6, 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18]];
+        $testInput1 = [['charname' => 'Lilen', 'link' => 'img', 'id' => 1, 'class' => 'Sorcerer', 'level' => 6, 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18]];
         //run the real function with the input
         $case = displayCharacters($testInput1);
         //compare the expected result with the actual result
@@ -53,7 +54,7 @@ class Functions extends TestCase {
         //expected result of the test
         // $expected = true;
         //input for the test to get the result
-        $testInput1 = ['charname' => 'Lilen', 'class' => 'Sorcerer', 'level' => '6', 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18];
+        $testInput1 = ['charname' => 'Lilen', 'class' => 'Sorcerer', 'level' => '6', 'strength' => 8, 'dexterity' => 12, 'constitution' => 14, 'intelligence' => 13, 'wisdom' => 12, 'charisma' => 18, 'image'=>'img'];
         //run the real function with the input
         $case = validateFields($testInput1);
         //compare the expected result with the actual result

@@ -4,7 +4,8 @@
  *
  * @return returns PDO from database connection
  */
-function databaseConnect(): PDO {
+function databaseConnect(): PDO 
+{
     $db = new PDO('mysql:host=db; dbname=collection_project', 'root', 'password');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -17,8 +18,9 @@ function databaseConnect(): PDO {
  * @param PDO created by connection with database
  * @return array returns all of the data requested from the database
  */
-function databaseFetchAll(PDO $db): array {
-    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `deleted` = 0;");
+function databaseFetchAll(PDO $db): array 
+{
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `deleted` = 0;");
     $query->execute();
     return $query->fetchAll();
 }
@@ -30,8 +32,9 @@ function databaseFetchAll(PDO $db): array {
  * @param string id of the character in the database
  * @return mixed Returns all the information of the character that is to be edited, if failed returns false
  */
-function databaseFetchEditChar(PDO $db,string $id) {
-    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma` FROM `characters` WHERE `id` = :id ;");
+function databaseFetchEditChar(PDO $db,string $id) 
+{
+    $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `id` = :id ;");
     $query->bindParam(':id', $id);
     $query->execute();
     return $query->fetch();
@@ -44,7 +47,8 @@ function databaseFetchEditChar(PDO $db,string $id) {
  * @param string id of the character to be deleted
  * @return returns a boolean to see if the function has failed
  */
-function databaseDeleteChar(PDO $db, string $id): bool {
+function databaseDeleteChar(PDO $db, string $id): bool 
+{
     $query = $db->prepare("UPDATE `characters` SET `deleted` = 1 WHERE `id` = :id");
     $query->bindParam(':id', $id);
     $query->execute();
@@ -66,9 +70,21 @@ function databaseDeleteChar(PDO $db, string $id): bool {
  * @param integer $charisma from POST
  * @return Inserts data to the database
  */
-function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma): bool {
-    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`)
-    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma)");
+function insertToDatabase(
+    PDO $db,
+    string $charname,
+    string $class,
+    int $level,
+    int $strength,
+    int $dexterity,
+    int $constitution,
+    int $intelligence,
+    int $wisdom,
+    int $charisma,
+    string $link
+): bool {
+    $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`)
+    VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma, :link)");
     $query->bindParam(':charname', $charname);
     $query->bindPAram(':class', $class);
     $query->bindPAram(':level', $level);
@@ -78,6 +94,7 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
     $query->bindPAram(':intelligence', $intelligence);
     $query->bindPAram(':wisdom', $wisdom);
     $query->bindPAram(':charisma', $charisma);
+    $query->bindParam(':link', $link);
     return $query->execute();
 }
 
@@ -97,8 +114,21 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
  * @param integer $id
  * @return bool true if passed and false if failed
  */
-function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id): bool {
-    $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma WHERE `id` = :id");
+function editCharDatabase(
+    PDO $db, 
+    string $charname, 
+    string $class, 
+    int $level, 
+    int $strength, 
+    int $dexterity, 
+    int $constitution, 
+    int $intelligence, 
+    int $wisdom, 
+    int $charisma, 
+    int $id, 
+    string $link
+): bool {
+    $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma, `link` = :link WHERE `id` = :id");
     $query->bindParam(':charname', $charname);
     $query->bindParam(':class', $class);
     $query->bindParam(':level1', $level);
@@ -109,6 +139,7 @@ function editCharDatabase(PDO $db, string $charname, string $class, int $level, 
     $query->bindParam(':wisdom', $wisdom);
     $query->bindParam(':charisma', $charisma);
     $query->bindParam(':id', $id);
+    $query->bindParam(':link', $link);
     return $query->execute();
 }
 
@@ -119,21 +150,23 @@ function editCharDatabase(PDO $db, string $charname, string $class, int $level, 
  * @param array $characters
  * @return returns a string of the details from the characters
  */
-function displayCharacters(array $characters): string {
-    if(count($characters) === 0){
+function displayCharacters(array $characters): string 
+{
+    if (count($characters) === 0){
         return 'Data is not available';
     }
     $result = '';
-    foreach($characters as $character){
-        $result .= "<section class='character_sheet'><div><p>Name: " . $character['charname'] . '<br>' . 'Class: ' . $character['class'] . '</p>';
-        $result .= '<p>Level: ' . $character['level'] . '</p>';
-        $result .= '<p>Strength: ' . $character['strength'] . '<br>' . 'Dexterity: ' . $character['dexterity'] . '</p>';
-        $result .= '<p>Constitution: ' . $character['constitution'] . '<br>' . 'Intelligence: ' . $character['intelligence'] . '</p>';
-        $result .= '<p>Wisdom: ' . $character['wisdom'] . '<br>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
-        $result .= "<div><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
+    foreach ($characters as $character){
+        $result .= "<section class='character_sheet'><div class='image'><img src='" . $character['link'] . "' /></div>";
+        $result .= "<div class='grid_contain'><div class='name_class'><p>Name: " . $character['charname'] . '</p><p>' . 'Class: ' . $character['class'] . '</p>';
+        $result .= '<p>Level: ' . $character['level'] . '</p></div>';
+        $result .= "<div class='stats'><div><p>Strength: " . $character['strength'] . '</p><p>' . 'Dexterity: ' . $character['dexterity'] . "</p>";
+        $result .= '<p>Constitution: ' . $character['constitution'] . '</p></div>' . '<div><p>Intelligence: ' . $character['intelligence'] . '</p>';
+        $result .= '<p>Wisdom: ' . $character['wisdom'] . '</p><p>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
+        $result .= "</div><div class='buttons'><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
         $result .= "<button>Delete this character</button></form>";
         $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'></input>";
-        $result .= "<button>Edit this character</button></form></div></section>";
+        $result .= "<button>Edit this character</button></form></div></div></section>";
     }
     return $result; 
 }
@@ -144,18 +177,23 @@ function displayCharacters(array $characters): string {
  * @param array Data from the form on previous page, stored in $_POST
  * @return bool returns false if not validated
  */
-function validateFields(array $post): bool {
-    if((!isset($post['charname']) || $post['charname'] === '') 
-    || (!isset($post['class']) || $post['class'] === '')
-    || (!isset($post['level']) || $post['level'] === '')
-    || (!isset($post['strength']) || $post['strength'] === '')
-    || (!isset($post['dexterity']) || $post['dexterity'] === '')
-    || (!isset($post['constitution']) || $post['constitution'] === '')
-    || (!isset($post['intelligence']) || $post['intelligence'] === '') 
-    || (!isset($post['wisdom']) || $post['wisdom'] === '') 
-    || (!isset($post['charisma']) || $post['charisma'] === '')) {
+function validateFields(array $post): bool 
+{
+    if (
+        empty($post['charname']) ||
+        empty($post['class']) ||
+        empty($post['level']) ||
+        empty($post['strength']) ||
+        empty($post['dexterity']) || 
+        empty($post['constitution']) ||
+        empty($post['intelligence']) || 
+        empty($post['wisdom']) || 
+        empty($post['charisma']) ||
+        empty($post['image'])
+    ) { 
         return false;
-    } return true;
+    } 
+    return true;
 }
 
 /**
@@ -164,15 +202,19 @@ function validateFields(array $post): bool {
  * @param array data from the form on previous page with $_POST
  * @return bool returns false if stats are over 20
  */
-function validateStats(array $post): bool {
-    if($post['strength'] > 20 
-    || $post['dexterity'] > 20 
-    || $post['constitution'] > 20 
-    || $post['intelligence'] > 20 
-    || $post['wisdom'] > 20 
-    || $post['charisma'] > 20) {
+function validateStats(array $post): bool 
+{
+    if (
+        $post['strength'] > 20 || 
+        $post['dexterity'] > 20 ||
+        $post['constitution'] > 20 ||
+        $post['intelligence'] > 20 ||
+        $post['wisdom'] > 20 ||
+        $post['charisma'] > 20 
+    ) {
         return false;
-    } return true;
+    } 
+    return true;
 }
 
 
@@ -181,17 +223,27 @@ function validateStats(array $post): bool {
  *
  * @return string returns a string from $_GET
  */
-function getMessage(): string {
-    if(isset($_GET['error'])) {
+function getMessage(): string 
+{
+    if (isset($_GET['error'])) {
         $result = $_GET;
         return $result['error'];
-    } return '';
+    } 
+    return '';
 }
 
-function sanitizePost(): array {
+
+/**
+ * Sanitises any potentially malicious entries before inserting into db
+ *
+ * @return array returns an array containing the sanitised character name and class name
+ */
+function sanitizePost(): array 
+{
     $charname = filter_var($_POST['charname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    return [$charname, $class];
+    $image = filter_var($_POST['image'], FILTER_SANITIZE_URL);
+    return ['charname' => $charname, 'class' => $class, 'image' => $image];
 }
 
 ?>
