@@ -163,9 +163,9 @@ function displayCharacters(array $characters): string
         $result .= "<div class='stats'><div><p>Strength: " . $character['strength'] . '</p><p>' . 'Dexterity: ' . $character['dexterity'] . "</p>";
         $result .= '<p>Constitution: ' . $character['constitution'] . '</p></div>' . '<div><p>Intelligence: ' . $character['intelligence'] . '</p>';
         $result .= '<p>Wisdom: ' . $character['wisdom'] . '</p><p>' . 'Charisma: ' . $character['charisma'] . '</p></div>';
-        $result .= "</div><div class='buttons'><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'</input>";
+        $result .= "</div><div class='buttons'><form action='delete_verify.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "' />";
         $result .= "<button>Delete this character</button></form>";
-        $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "'></input>";
+        $result .= "<form action='char_edit.php' method='POST'><input type='hidden' name='character' value='" . $character['id'] . "' />";
         $result .= "<button>Edit this character</button></form></div></div></section>";
     }
     return $result; 
