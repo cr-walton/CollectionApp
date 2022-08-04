@@ -77,7 +77,7 @@ function insertToDatabase(PDO $db,
     int $wisdom,
     int $charisma,
     string $link
-    ): bool {
+): bool {
     $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`)
     VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma, :link)");
     $query->bindParam(':charname', $charname);
@@ -121,7 +121,7 @@ function editCharDatabase(PDO $db,
     int $charisma, 
     int $id, 
     string $link
-    ): bool {
+): bool {
     $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma, `link` = :link WHERE `id` = :id");
     $query->bindParam(':charname', $charname);
     $query->bindParam(':class', $class);
@@ -171,16 +171,16 @@ function displayCharacters(array $characters): string {
  * @return bool returns false if not validated
  */
 function validateFields(array $post): bool {
-    if(empty($post['charname']) 
-    || empty($post['class'])
-    || empty($post['level'])
-    || empty($post['strength'])
-    || empty($post['dexterity'])
-    || empty($post['constitution'])
-    || empty($post['intelligence']) 
-    || empty($post['wisdom']) 
-    || empty($post['charisma'])
-    || empty($post['image'])) { 
+    if(empty($post['charname']) ||
+    empty($post['class']) ||
+    empty($post['level']) ||
+    empty($post['strength']) ||
+    empty($post['dexterity']) || 
+    empty($post['constitution']) ||
+    empty($post['intelligence']) || 
+    empty($post['wisdom']) || 
+    empty($post['charisma']) ||
+    empty($post['image'])) { 
         return false;
     } return true;
 }
