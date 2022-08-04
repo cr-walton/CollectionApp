@@ -4,7 +4,8 @@
  *
  * @return returns PDO from database connection
  */
-function databaseConnect(): PDO {
+function databaseConnect(): PDO 
+{
     $db = new PDO('mysql:host=db; dbname=collection_project', 'root', 'password');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -17,7 +18,8 @@ function databaseConnect(): PDO {
  * @param PDO created by connection with database
  * @return array returns all of the data requested from the database
  */
-function databaseFetchAll(PDO $db): array {
+function databaseFetchAll(PDO $db): array 
+{
     $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `deleted` = 0;");
     $query->execute();
     return $query->fetchAll();
@@ -30,7 +32,8 @@ function databaseFetchAll(PDO $db): array {
  * @param string id of the character in the database
  * @return mixed Returns all the information of the character that is to be edited, if failed returns false
  */
-function databaseFetchEditChar(PDO $db,string $id) {
+function databaseFetchEditChar(PDO $db,string $id) 
+{
     $query = $db->prepare("SELECT `id`, `charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link` FROM `characters` WHERE `id` = :id ;");
     $query->bindParam(':id', $id);
     $query->execute();
@@ -44,7 +47,8 @@ function databaseFetchEditChar(PDO $db,string $id) {
  * @param string id of the character to be deleted
  * @return returns a boolean to see if the function has failed
  */
-function databaseDeleteChar(PDO $db, string $id): bool {
+function databaseDeleteChar(PDO $db, string $id): bool 
+{
     $query = $db->prepare("UPDATE `characters` SET `deleted` = 1 WHERE `id` = :id");
     $query->bindParam(':id', $id);
     $query->execute();
@@ -66,7 +70,8 @@ function databaseDeleteChar(PDO $db, string $id): bool {
  * @param integer $charisma from POST
  * @return Inserts data to the database
  */
-function insertToDatabase(PDO $db,
+function insertToDatabase(
+    PDO $db,
     string $charname,
     string $class,
     int $level,
@@ -109,7 +114,8 @@ function insertToDatabase(PDO $db,
  * @param integer $id
  * @return bool true if passed and false if failed
  */
-function editCharDatabase(PDO $db, 
+function editCharDatabase(
+    PDO $db, 
     string $charname, 
     string $class, 
     int $level, 
@@ -144,7 +150,8 @@ function editCharDatabase(PDO $db,
  * @param array $characters
  * @return returns a string of the details from the characters
  */
-function displayCharacters(array $characters): string {
+function displayCharacters(array $characters): string 
+{
     if (count($characters) === 0){
         return 'Data is not available';
     }
@@ -170,7 +177,8 @@ function displayCharacters(array $characters): string {
  * @param array Data from the form on previous page, stored in $_POST
  * @return bool returns false if not validated
  */
-function validateFields(array $post): bool {
+function validateFields(array $post): bool 
+{
     if (
         empty($post['charname']) ||
         empty($post['class']) ||
@@ -194,7 +202,8 @@ function validateFields(array $post): bool {
  * @param array data from the form on previous page with $_POST
  * @return bool returns false if stats are over 20
  */
-function validateStats(array $post): bool {
+function validateStats(array $post): bool 
+{
     if (
         $post['strength'] > 20 || 
         $post['dexterity'] > 20 ||
@@ -214,7 +223,8 @@ function validateStats(array $post): bool {
  *
  * @return string returns a string from $_GET
  */
-function getMessage(): string {
+function getMessage(): string 
+{
     if (isset($_GET['error'])) {
         $result = $_GET;
         return $result['error'];
@@ -228,7 +238,8 @@ function getMessage(): string {
  *
  * @return array returns an array containing the sanitised character name and class name
  */
-function sanitizePost(): array {
+function sanitizePost(): array 
+{
     $charname = filter_var($_POST['charname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $image = filter_var($_POST['image'], FILTER_SANITIZE_URL);
