@@ -26,6 +26,7 @@ if(!$character) {
                 <a href="crwaltoncv.docx" id="cv">Download CV</a>
             </div>
         </nav>
+        <h1>Edit Your Character</h1>
         <section class='form_container'>
             <form class='edit_create_form' action='edit_verify.php' method='POST'>
                 <div>
@@ -74,6 +75,10 @@ if(!$character) {
                 </div>
             </form>
         </section>
+        <div class='dnd-links'>
+                <a href='https://www.dndbeyond.com'><img src='dnd-logo2.png' alt='D&D beyond link' /></a>
+                <a href='http://dnd5e.wikidot.com'><img src='dnd-wiki-logo2.png' alt='D&D wiki link' /></a>
+            </div>
         <section class='contact-container' id='contact-me'>
             <div class='contact-links'>
                 <a href='mailto:walton-cr@proton.me'><img src='email-logo.png' alt='email Link'></a>

@@ -29,14 +29,18 @@ $characters = databaseFetchAll($db);
                 <h1>D&D Character Collection</h1>
                 <?=displayCharacters($characters);?>
             </div>
-            <section class='contact-container' id='contact-me'>
-            <div class='contact-links'>
-                <a href='mailto:walton-cr@proton.me'><img src='email-logo.png' alt='email Link'></a>
-                <a href='#'><img src='LinkedIn-logo.png' alt='LinkedIn Link'></a>
-                <a href='https://github.com/cr-walton'><img src='GitHub-Mark-32px.png' alt='GitHub Link'></a>
+            <div class='dnd-links'>
+                <a href='https://www.dndbeyond.com'><img src='dnd-logo2.png' alt='D&D beyond link' /></a>
+                <a href='http://dnd5e.wikidot.com'><img src='dnd-wiki-logo2.png' alt='D&D wiki link' /></a>
             </div>
+            <section class='contact-container' id='contact-me'>
+                <div class='contact-links'>
+                    <a href='mailto:walton-cr@proton.me'><img src='email-logo.png' alt='email Link'></a>
+                    <a href='#'><img src='LinkedIn-logo.png' alt='LinkedIn Link'></a>
+                    <a href='https://github.com/cr-walton'><img src='GitHub-Mark-32px.png' alt='GitHub Link'></a>
+                </div>
+         </section>
         </div>	
-	</section>
 	
 	<footer>
 		<div class='foot-cont'>

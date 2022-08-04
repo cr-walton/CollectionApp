@@ -154,6 +154,22 @@ form button:hover {
   transform: scale(1.1);
 }
 
+.dnd-links {
+  display: flex;
+  justify-content: center;
+}
+
+.dnd-links img {
+  height: 150px;
+  width: auto;
+  margin: 50px;
+}
+
+.dnd-links img:nth-child(1) {
+  height: 120px;
+  
+}
+
 .contact-container {
 	display: flex;
 	flex-direction: row;
