@@ -16,7 +16,7 @@ $error = getMessage($_GET);
     <body>
         <nav>
             <div class='nav-links'>
-                <a href="project_index.php">Home</a>
+                <a href="index.php">Home</a>
             </div>
             <div class='nav-contact'>
                 <a href="https://cr-walton.github.io/">Portfolio</a>

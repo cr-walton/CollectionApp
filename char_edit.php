@@ -3,7 +3,7 @@ require_once 'functions.php';
 $db = databaseConnect();
 $character = databaseFetchEditChar($db, $_POST['character']);
 if(!$character) {
-    header('location: project_index.php');
+    header('location: index.php');
 }
 ?>
 
@@ -18,7 +18,7 @@ if(!$character) {
     <body>
         <nav>
             <div class='nav-links'>
-                <a href="project_index.php">Home</a>
+                <a href="index.php">Home</a>
                 <a href='char_creation.php'>Create a new character</a>
             </div>
             <div class='nav-contact'>
