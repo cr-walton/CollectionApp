@@ -66,7 +66,18 @@ function databaseDeleteChar(PDO $db, string $id): bool {
  * @param integer $charisma from POST
  * @return Inserts data to the database
  */
-function insertToDatabase(PDO $db,string $charname,string $class,int $level,int $strength,int $dexterity,int $constitution,int $intelligence,int $wisdom,int $charisma,string $link): bool {
+function insertToDatabase(PDO $db,
+    string $charname,
+    string $class,
+    int $level,
+    int $strength,
+    int $dexterity,
+    int $constitution,
+    int $intelligence,
+    int $wisdom,
+    int $charisma,
+    string $link
+    ): bool {
     $query = $db->prepare("INSERT INTO `characters` (`charname`, `class`, `level`, `strength`, `dexterity`, `constitution`, `intelligence`, `wisdom`, `charisma`, `link`)
     VALUES (:charname, :class, :level, :strength, :dexterity, :constitution, :intelligence, :wisdom, :charisma, :link)");
     $query->bindParam(':charname', $charname);
@@ -98,7 +109,19 @@ function insertToDatabase(PDO $db,string $charname,string $class,int $level,int 
  * @param integer $id
  * @return bool true if passed and false if failed
  */
-function editCharDatabase(PDO $db, string $charname, string $class, int $level, int $strength, int $dexterity, int $constitution, int $intelligence, int $wisdom, int $charisma, int $id, string $link): bool {
+function editCharDatabase(PDO $db, 
+    string $charname, 
+    string $class, 
+    int $level, 
+    int $strength, 
+    int $dexterity, 
+    int $constitution, 
+    int $intelligence, 
+    int $wisdom, 
+    int $charisma, 
+    int $id, 
+    string $link
+    ): bool {
     $query = $db->prepare("UPDATE `characters` SET `charname` = :charname, `class` = :class, `level` = :level1, `strength` = :strength, `dexterity` = :dexterity, `constitution` = :constitution, `intelligence` = :intelligence, `wisdom` = :wisdom, `charisma` = :charisma, `link` = :link WHERE `id` = :id");
     $query->bindParam(':charname', $charname);
     $query->bindParam(':class', $class);
@@ -148,16 +171,16 @@ function displayCharacters(array $characters): string {
  * @return bool returns false if not validated
  */
 function validateFields(array $post): bool {
-    if((!isset($post['charname']) || $post['charname'] === '') 
-    || (!isset($post['class']) || $post['class'] === '')
-    || (!isset($post['level']) || $post['level'] === '')
-    || (!isset($post['strength']) || $post['strength'] === '')
-    || (!isset($post['dexterity']) || $post['dexterity'] === '')
-    || (!isset($post['constitution']) || $post['constitution'] === '')
-    || (!isset($post['intelligence']) || $post['intelligence'] === '') 
-    || (!isset($post['wisdom']) || $post['wisdom'] === '') 
-    || (!isset($post['charisma']) || $post['charisma'] === '')
-    || (!isset($post['image']) || $post['image'] === '')){
+    if(empty($post['charname']) 
+    || empty($post['class'])
+    || empty($post['level'])
+    || empty($post['strength'])
+    || empty($post['dexterity'])
+    || empty($post['constitution'])
+    || empty($post['intelligence']) 
+    || empty($post['wisdom']) 
+    || empty($post['charisma'])
+    || empty($post['image'])) { 
         return false;
     } return true;
 }
@@ -202,7 +225,7 @@ function sanitizePost(): array {
     $charname = filter_var($_POST['charname'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $class = filter_var($_POST['class'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $image = filter_var($_POST['image'], FILTER_SANITIZE_URL);
-    return [$charname, $class, $image];
+    return ['charname' => $charname, 'class' => $class, 'image' => $image];
 }
 
 ?>

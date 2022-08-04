@@ -27,7 +27,7 @@ $characters = databaseFetchAll($db);
         <div class='project-main'>
             <div class='collection-cont'>
                 <h1>D&D Character Collection</h1>
-                <?=displayCharacters($characters);?>
+                <?php echo displayCharacters($characters);?>
             </div>
             <div class='dnd-links'>
                 <a href='https://www.dndbeyond.com'><img src='dnd-logo2.png' alt='D&D beyond link' /></a>

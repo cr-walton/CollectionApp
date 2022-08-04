@@ -27,47 +27,47 @@ $error = getMessage($_GET);
         <section class='form_container'>
             <form class='edit_create_form' action='verify.php' method='POST'>
                 <div>
-                   <?= $error ?>
+                   <?php echo $error ?>
                 </div> 
                 <div>
                     <label for='charname'>Character Name:</label>
-                    <input type='text' name='charname' />
+                    <input type='text' name='charname' id='charname' />
                 </div>
                 <div>
                     <label for='class'>Class:</label>
-                    <input type='text' name='class' />
+                    <input type='text' name='class' id='class' />
                 </div>
                 <div>
                     <label for='level'>Level:</label>
-                    <input type='number' min= '0' max= '20' name='level' />
+                    <input type='number' min='1' max='20' name='level' id='level'/>
                 </div>
                 <div>
                     <label for='strength'>Strength:</label>
-                    <input type='number' min= '0' max= '20' name='strength' />
+                    <input type='number' min='1' max='20' name='strength' id='strength'/>
                 </div>
                 <div>
                     <label for='dexterity'>Dexterity:</label>
-                    <input type='number' min= '0' max= '20' name='dexterity' />
+                    <input type='number' min='1' max='20' name='dexterity' id='dexterity'/>
                 </div>
                 <div>
                     <label for='constitution'>Constitution:</label>
-                    <input type='number' min= '0' max= '20' name='constitution' />
+                    <input type='number' min='1' max='20' name='constitution' id='constitution'/>
                 </div>
                 <div>
                     <label for='intelligence'>Intelligence:</label>
-                    <input type='number' min= '0' max= '20' name='intelligence' />
+                    <input type='number' min='1' max='20' name='intelligence' id='intelligence'/>
                 </div>
                 <div>
                     <label for='wisdom'>Wisdom:</label>
-                    <input type='number' min= '0' max= '20' name='wisdom' />
+                    <input type='number' min='1' max='20' name='wisdom' id='wisdom' />
                 </div>
                 <div>
                     <label for='charisma'>Charisma:</label>
-                    <input type='number' min= '0' max= '20' name='charisma' />
+                    <input type='number' min='1' max='20' name='charisma' id='charisma'/>
                 </div>
                 <div>
                     <label for='image'>Image URL:</label>
-                    <input type='text' name='image' value='https://i.imgur.com/9AeOMee.png' required />
+                    <input type='text' name='image' id='image' value='https://i.imgur.com/9AeOMee.png' required />
                 </div>
                 <div class='confirm_button'>
                     <button>Create Character</button>

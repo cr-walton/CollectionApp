@@ -31,44 +31,44 @@ if(!$character) {
             <form class='edit_create_form' action='edit_verify.php' method='POST'>
                 <div>
                     <label>Character name:</label>
-                    <input type='text' name='charname' value='<?= $character['charname']?>' />
+                    <input type='text' name='charname' id='charname' value='<?php echo $character['charname']?>' />
                 </div>
                 <div>
                     <label>Class:</label>
-                    <input type='text' name='class' value='<?= $character['class']?>' />
+                    <input type='text' name='class' id='class' value='<?php echo $character['class']?>' />
                 </div>
                 <div>
                     <label>Level:</label>
-                    <input type='number' min= '0' max= '20' name='level' value='<?= $character['level']?>' />
+                    <input type='number' min='1' max='20' name='level' id='level' value='<?php echo $character['level']?>' />
                 </div>
                 <div>
                     <label>Strength:</label>
-                    <input type='number' min= '0'max= '20' name='strength' value='<?= $character['strength']?>' />
+                    <input type='number' min='1'max='20' name='strength' id='strength' value='<?php echo $character['strength']?>' />
                 </div>
                 <div>
                     <label>Dexterity:</label>
-                    <input type='number' min= '0' max= '20' name='dexterity' value='<?= $character['dexterity']?>' />
+                    <input type='number' min='1' max='20' name='dexterity' id='dexterity' value='<?php echo $character['dexterity']?>' />
                 </div>
                 <div>
                     <label>Constitution:</label>
-                    <input type='number' min= '0' max= '20' name='constitution' value='<?= $character['constitution']?>' />
+                    <input type='number' min='1' max='20' name='constitution' id='constitution' value='<?php echo $character['constitution']?>' />
                 </div>
                 <div>
                     <label>Intelligence:</label>
-                    <input type='number' min= '0' max= '20' name='intelligence' value='<?= $character['intelligence']?>' />
+                    <input type='number' min='1' max='20' name='intelligence' id='intelligence' value='<?php echo $character['intelligence']?>' />
                 </div>
                 <div>
                     <label>Wisdom:</label>
-                    <input type='number' min= '0' max= '20' name='wisdom' value='<?= $character['wisdom']?>' />
+                    <input type='number' min='1' max='20' name='wisdom' id='wisdom' value='<?php echo $character['wisdom']?>' />
                 </div>
                 <div>
                     <label>Charisma:</label>
-                    <input type='number' min= '0' max= '20' name='charisma' value='<?= $character['charisma']?>' />
-                    <input type='hidden' name='character' value='<?= $character['id']?>' />
+                    <input type='number' min='1' max='20' name='charisma' id='charisma' value='<?php echo $character['charisma']?>' />
+                    <input type='hidden' name='character' id='hidden_id' value='<?php echo $character['id']?>' />
                 </div>
                 <div>
                     <label>Image URL:</label>
-                    <input type='text' name='image' value='<?=$character['link']?>' />
+                    <input type='text' name='image' id='image' value='<?php echo $character['link']?>' />
                 </div>
                 <div class='confirm_button'>
                     <button>Confirm Edits</button>
